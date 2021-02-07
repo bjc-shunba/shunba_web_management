@@ -1,0 +1,179 @@
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 1366px;
+}
+.el-row{
+ width: 100%;   
+}
+// 文本过长以省略号展示
+.text-ellipsis  {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.h100{
+  height: 100%;
+}
+.fw{
+  font-weight: 700;
+}
+.fs16{
+  font-size: 16px;
+}
+.fs18{
+  font-size: 18px;
+}
+.fs20{
+  font-size: 20px;
+}
+
+// 图标
+.el-icon-delete{
+  cursor: pointer;
+  font-size: 20px;
+}
+.el-icon-edit{
+  cursor: pointer;
+  font-size: 20px;
+}
+
+
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
+.btn{
+  margin-left: 20px;
+}
+
+.el-pagination{
+  padding-top: 24px;
+}
+
+
+//表格样式
+.el-table th{
+  background-color: #e4ffea;
+  color: #555;
+  font-weight: 600;
+}
+.el-table td, .el-table th{
+  padding:6px 0
+}
+
+.el-table th.gutter{
+  display: table-cell!important;  
+
+}
+
+// 设置表格斑马线颜色
+.el-table--striped .el-table__body tr.el-table__row--striped td{
+  background-color: #f1f1f1;
+}
+
+// 设置表格边框颜色
+.el-table td, .el-table th.is-leaf,.el-table--border, .el-table--group{
+  border-color: #d9d9d9; 
+}
+
+// 输入框颜色与高度
+.el-input__inner{
+  height: 36px;
+  background-color: #f9f9f9;
+}
+
+
+// 弹窗样式
+.el-dialog{
+  border-radius: 3px;
+  margin-top: 27vh!important;
+}
+
+.el-dialog__header{
+  font-weight: 700;
+  padding-top: 10px!important;
+  border-left: 5px solid #3ac158;
+  background-color: #e4ffea;
+  .el-dialog__headerbtn{
+    top: 15px;
+  }
+}
+.el-dialog__footer{
+  padding-top: 0px;
+  padding-right: 30px;
+  .el-button{
+    width: 80px;
+    height: 30px;
+  border-radius: 5px!important;
+
+  }
+  .el-button--primary{
+    // color:#fff;
+    background-color: #fff;
+  }
+}
+
+
+// 按钮样式
+.el-button{
+  padding: 0;
+  border: 1px solid #3ac158;
+  font-size: 14px;
+  color:#3ac158
+}
+
+// 消息提示框样式
+.el-message-box{
+  width: 550px;
+  position: relative;
+  vertical-align:inherit
+}
+.el-message-box__title{
+  font-size: 20px!important;
+}
+.el-message-box__header{
+  border-left: 3px solid #3ac158;
+  font-weight: 700;
+  text-align: center;
+  height: 20px;
+  background-color: #e4ffea;
+ 
+}
+.el-message-box .el-button{
+  font-size: 16px;
+  width: 100px;
+  height: 35px;
+  margin-bottom:8px ;
+}
+.el-message-box .el-button--primary{
+  background-color: #3AC158;
+  color: #fff;
+  width: 100px;
+  height: 35px;
+}
+.el-message-box__content {
+  margin: 11% 23%;
+  padding: 0;
+  color: #000000;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.el-date-editor{
+  .el-input__prefix, .el-input__suffix{
+    color:#3ac158
+  }
+}
+
+.el-input__inner:focus{ 
+  border-color:#3ac158!important; 
+}
+.el-textarea__inner:focus{
+  border-color:#3ac158!important; 
+}
