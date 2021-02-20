@@ -7,17 +7,11 @@
             <query-item label="车牌号：" query-type="like" prop="carNo" class="input">
                 <el-input v-model="carNo" style="width: 180px"></el-input>
             </query-item>
-            <query-item label="线路：" query-type="equals" prop="lineId" class="input">
-                <el-select v-model="lineId" placeholder="请选择" style="width: 180px" clearable filterable>
-                    <el-option v-for="item in optionRoute" :key="item.lineId" :label="item.name"
-                               :value="item.lineId"></el-option>
-                </el-select>
+            <query-item label="线路：" query-type="like" prop="lineId" class="input">
+				<el-input v-model="lineId" style="width: 180px"></el-input>
             </query-item>
-            <query-item label="班次：" query-type="equals" prop="shiftNo" class="input">
-                <el-select v-model="shiftNo" placeholder="请选择" style="width: 180px" clearable filterable>
-                    <el-option v-for="item in optionCar" :key="item.shiftId" :label="item.name"
-                               :value="item.shiftId"></el-option>
-                </el-select>
+            <query-item label="班次：" query-type="like" prop="shiftNo" class="input">
+				<el-input v-model="shiftNo" style="width: 180px"></el-input>
             </query-item>
             <query-item label="PAD设备版本号：" query-type="like" prop="appVersion" class="input">
                 <el-input v-model="appVersion" style="width: 180px"></el-input>
@@ -122,9 +116,6 @@
           page: 0,
           size: 50
         },
-
-        optionRoute: [],
-        optionCar: [],
         optionOnline: [
           {
             value: 0,
@@ -253,12 +244,6 @@
         this.shiftId = "";
         this.appVersion = "";
         this.isOnline = "";
-      },
-      async setOption() {
-        const {data: resLine} = await this.$http.post("/api/line/listLine", {});
-        const {data: resShift} = await this.$http.post("/api/shift/listShift", {});
-        this.optionRoute = resLine.data;
-        this.optionCar = resShift.data;
       },
 
       // 新建按钮
