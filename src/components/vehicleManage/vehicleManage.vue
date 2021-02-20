@@ -339,7 +339,6 @@
     },
     mounted() {
       this.getParamsData();
-      this.setOption();
     }
   };
 </script>
