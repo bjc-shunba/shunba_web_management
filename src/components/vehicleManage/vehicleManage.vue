@@ -7,11 +7,11 @@
             <query-item label="车牌号：" query-type="like" prop="carNo" class="input">
                 <el-input v-model="carNo" style="width: 180px"></el-input>
             </query-item>
-            <query-item label="线路：" query-type="like" prop="lineId" class="input">
-				<el-input v-model="lineId" style="width: 180px"></el-input>
+            <query-item label="线路：" query-type="startWith" prop="lineId" class="input">
+                <el-input v-model="lineId" style="width: 180px"></el-input>
             </query-item>
-            <query-item label="班次：" query-type="like" prop="shiftNo" class="input">
-				<el-input v-model="shiftNo" style="width: 180px"></el-input>
+            <query-item label="班次：" query-type="startWith" prop="shiftNo" class="input">
+                <el-input v-model="shiftNo" style="width: 180px"></el-input>
             </query-item>
             <query-item label="PAD设备版本号：" query-type="like" prop="appVersion" class="input">
                 <el-input v-model="appVersion" style="width: 180px"></el-input>
@@ -69,7 +69,7 @@
                             :current-page.sync="currentPage"
                             :page-sizes="[10, 20, 50, 100, 200, 500]"
                             :page-size="pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
+                            layout="total, sizes, prev, pager, next, jumper"
                             :total="total"
                     ></el-pagination>
                 </el-main>
@@ -78,8 +78,12 @@
         <!-- 编辑的弹窗 -->
         <el-dialog :title="title" :visible.sync="editOrAddDialog" width="550px" @close="dialogClose()">
             <el-form :model="editForm" :rules="formrule" ref="formRef" label-width="120px">
-                <el-form-item label="识别标识码：" prop="deviceId">
-                    <el-input v-model="editForm.deviceId" style="width: 300px"></el-input>
+                <el-form-item label="设备标识码：" prop="deviceId">
+                    <!--
+                        * 2021-03-15
+                        * 应客户要求, 编辑状态下不允许修改 deviceId
+                    -->
+                    <el-input v-model="editForm.deviceId" style="width: 300px" :disabled="!isAdd"></el-input>
                 </el-form-item>
                 <el-form-item label="车牌号：" prop="carNo">
                     <el-input v-model="editForm.carNo" style="width: 300px"></el-input>
@@ -192,7 +196,7 @@
           deviceId: [
             {
               required: true,
-              message: "请输入识别标识码",
+              message: "请输入设备标识码",
               trigger: "blur"
             }
           ],
@@ -219,7 +223,18 @@
           query: queryparmas
         };
         const {data: res} = await this.$http.post("/api/device/listDevice", parmas);
-        this.tableData = _.get(res, "data.content", []);
+        /**
+         * 2021-03-15
+         * 应客户要求, 将设备存储空间值改为MB单位数值
+         */
+        this.tableData = _.get(res, "data.content", []).map(device => {
+          if (device.space && device.space > 0) {
+            device.space = Math.floor(device.space / 1024 / 1024);
+          } else {
+            device.space = '';
+          }
+          return device;
+        });
         this.total = res.data.totalElements;
       },
       onlineformatter(row, column, cellValue, index) {
@@ -241,7 +256,7 @@
         this.deviceId = "";
         this.carNo = "";
         this.lineId = "";
-        this.shiftId = "";
+        this.shiftNo = "";
         this.appVersion = "";
         this.isOnline = "";
       },

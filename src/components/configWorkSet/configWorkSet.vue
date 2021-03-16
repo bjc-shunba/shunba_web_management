@@ -35,8 +35,7 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="8" class=""
-                >
+                <el-col :span="8" class="">
                     <div class="divbord">
                         <div class="indiv" style="width: 100px">体温阈值</div>
                         <div class="switch" style="padding-left: 28px">
@@ -93,12 +92,12 @@
             <query-item label="车牌号：" query-type="like" prop="carNo" class="input">
                 <el-input v-model="carNo" style="width: 180px" @change="carNoChange"></el-input>
             </query-item>
-            <query-item label="创建日期：" query-type="greaterOrEqualsThan" prop="creatDate" class="input">
-                <el-date-picker v-model="creatDate" value-format="yyyy-MM-dd HH:mm" type="date" placeholder="选择日期"
+            <query-item label="创建日期：" query-type="greaterOrEqualsThan" prop="createDate" class="input">
+                <el-date-picker v-model="createDate" value-format="yyyy-MM-dd HH:mm:ss" type="date" placeholder="选择日期"
                                 style="width: 180px"></el-date-picker>
             </query-item>
             <query-item label="更新日期：" query-type="greaterOrEqualsThan" prop="updateDate" class="input">
-                <el-date-picker v-model="updateDate" value-format="yyyy-MM-dd HH:mm" type="date" placeholder="选择日期"
+                <el-date-picker v-model="updateDate" value-format="yyyy-MM-dd HH:mm:ss" type="date" placeholder="选择日期"
                                 style="width: 180px"></el-date-picker>
             </query-item>
             <query-item label="是否失效：" query-type="equals" prop="delFlag" class="input">
@@ -154,35 +153,27 @@
                             layout="total, sizes, prev, pager, next, jumper"
                             :total="total"
                     ></el-pagination>
-                </el-main
-                >
+                </el-main>
             </el-container>
         </div>
-        <el-dialog :title="title" :visible.sync="editOrAddDialog" width="550px" @close="dialogClose()"
-        >
-            <el-form :model="editForm" :rules="formrule" ref="formRef" label-width="130px"
-            >
+        <el-dialog :title="title" :visible.sync="editOrAddDialog" width="550px" @close="dialogClose()">
+            <el-form :model="editForm" :rules="formrule" ref="formRef" label-width="130px">
                 <el-form-item label="License序列号：" prop="serialNumber">
                     <el-input v-model="editForm.serialNumber" style="width: 300px"></el-input>
-                </el-form-item
-                >
+                </el-form-item>
                 <el-form-item label="车牌号：" prop="">
                     <el-select v-model="editForm.carNo" placeholder="请选择" style="width: 300px" clearable>
                         <el-option v-for="item in options" :key="item.carNo" :label="item.carNo"
                                    :value="item.carNo"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="设备标识码：" prop="deviceId"
-                >
+                <el-form-item label="设备标识码：" prop="deviceId">
                     <el-input v-model="editForm.deviceId" style="width: 300px" @change="change"></el-input>
                 </el-form-item>
-            </el-form
-            >
-            <span slot="footer" class="dialog-footer"
-            ><el-button @click="editOrAddDialog = false">取消</el-button><el-button type="primary"
-                                                                                  @click="editParams">确定</el-button></span
-            ></el-dialog
-        >
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="editOrAddDialog = false">取消</el-button><el-button type="primary" @click="editParams">确定</el-button></span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -272,13 +263,19 @@
         },
         page: {
           page: 0,
-          size: 50
+          size: 20,
+          /**
+           * 2021-03-15
+           * 应客户要求, 添加按车牌号升序排序配置
+           */
+          sort: {
+            carNo: 'asc'
+          }
         },
-
         serialNumber: "",
         deviceId: "",
         carNo: "",
-        creatDate: "",
+        createDate: "",
         updateDate: "",
         delFlag: 0,
         delFlagOptions: [
@@ -323,7 +320,7 @@
             label: "创建日期",
             type: "",
             width: "160",
-            prop: "creatDate"
+            prop: "createDate"
           },
           {
             label: "更新日期",
@@ -361,7 +358,7 @@
           serialNumber: [
             {
               required: true,
-              message: "请输入识别标识码",
+              message: "请输入设备标识码",
               trigger: "blur"
             }
           ],
@@ -495,7 +492,7 @@
         this.serialNumber = "";
         this.deviceId = "";
         this.carNo = "";
-        this.creatDate = "";
+        this.createDate = "";
         this.updateDate = "";
         this.delFlag = "";
       },
@@ -572,15 +569,15 @@
 
       handleSizeChange(val) {
         console.log(val, "handleSizeChange");
+        this.page.page = 0;
+        this.currentPage = 1;
         this.page.size = val;
         this.getParamsData();
       },
 
       handleCurrentChange(val) {
         console.log(val, "handleCurrentChange");
-        this.page.page = 0;
-        this.currentPage = 1;
-        this.page.size = val;
+        this.page.page = val - 1;
         this.getParamsData();
       },
 

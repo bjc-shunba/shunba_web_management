@@ -1,10 +1,10 @@
 <template>
     <div class="page">
         <query-form ref="form" class="search" label-width="6em">
-            <query-item label="线路：" query-type="like" prop="lineId" class="input">
+            <query-item label="线路：" query-type="startWith" prop="lineId" class="input">
                 <el-input v-model="lineId" style="width: 180px"></el-input>
             </query-item>
-            <query-item label="班次编号：" query-type="like" prop="shiftNo" class="input">
+            <query-item label="班次编号：" query-type="startWith" prop="shiftNo" class="input">
                 <el-input v-model="shiftNo" style="width: 180px"></el-input>
             </query-item>
             <query-item label="时刻表开始：" query-type="equals" prop="startTimeDate" class="input">
@@ -80,7 +80,15 @@
 
         page: {
           page: 0,
-          size: 50
+          size: 50,
+          /**
+           * 2021-03-15
+           * 应客户要求, 添加按 时刻开始时间降序以及线路id升序排序(字母顺序)配置
+           */
+          sort: {
+            startTimeDate: 'desc',
+            lineId: "asc"
+          }
         },
 
         // 渲染表格
